@@ -77,6 +77,7 @@ void setup()
   #ifdef DEBUG
   Serial.begin(9600);
   #endif DEBUG
+  
   pinMode(13,OUTPUT);
   pinMode(RECV_PIN, INPUT);
   pinMode(mRED_PIN,OUTPUT);
@@ -89,6 +90,7 @@ void setup()
 void loop() {
   if (irrecv.decode(&results)) {
     #ifdef DEBUG
+    Serial.print("IR Remote button pressed: 0x");
     Serial.println(results.value, HEX);
     #endif
     switch(results.value)
@@ -216,8 +218,7 @@ void setColour(int* led, byte* colour)
 
 void setColour(int* led, const byte* colour)
 {
-  byte tempByte[] = {
-    colour[0], colour[1], colour[2]  }; 
+  byte tempByte[] = {colour[0], colour[1], colour[2]}; 
   setColour(led, tempByte);
 }
 
