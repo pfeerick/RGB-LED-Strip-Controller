@@ -28,7 +28,7 @@ decode_results results;
 
 boolean powerFlg = false; // current power state, defaults to false
 int MODE = 0; // defaults to off
-int COLOUR[3] = {255,255,255}; //defaults to white
+int LAST_COLOUR_SET[3] = {255,255,255}; //defaults to white
 
 int ledPins[] = {mRED_PIN, mGREEN_PIN, mBLUE_PIN}; 
 
@@ -135,9 +135,9 @@ void setPower(boolean state)
     #ifdef DEBUG
     Serial.println("ON");
     #endif    
-    analogWrite(mRED_PIN,COLOUR[0]);
-    analogWrite(mGREEN_PIN,COLOUR[1]);
-    analogWrite(mBLUE_PIN,COLOUR[2]);      
+    analogWrite(mRED_PIN,LAST_COLOUR_SET[0]);
+    analogWrite(mGREEN_PIN,LAST_COLOUR_SET[1]);
+    analogWrite(mBLUE_PIN,LAST_COLOUR_SET[2]);      
   }
   else //power off
   {
@@ -185,7 +185,8 @@ void setColour(int* led, byte* colour)
     //iterate through each of the three pins (red green blue)  
     for(int i = 0; i < 3; i++)
     {           
-      analogWrite(led[i], colour[i]);  
+      analogWrite(led[i], colour[i]);
+      LAST_COLOUR_SET[i] = colour[i];
     }
   }
 }
@@ -200,75 +201,75 @@ void setColour(int* led, const byte* colour)
 // needs either positive no. for increase or negative for decrease
 void incBrightness()
 {
-  if (COLOUR[0] >= 245)
+  if (LAST_COLOUR_SET[0] >= 245)
   {
-    COLOUR[0] = 255;
+    LAST_COLOUR_SET[0] = 255;
   }
   else
   {
-    COLOUR[0] += 10;
+    LAST_COLOUR_SET[0] += 10;
   }
 
-  if (COLOUR[1] >= 245)
+  if (LAST_COLOUR_SET[1] >= 245)
   {
-    COLOUR[1] = 255;
+    LAST_COLOUR_SET[1] = 255;
   }
   else
   {
-    COLOUR[1] += 10;
+    LAST_COLOUR_SET[1] += 10;
   }
 
-  if (COLOUR[2] >= 245)
+  if (LAST_COLOUR_SET[2] >= 245)
   {
-    COLOUR[2] = 255;
+    LAST_COLOUR_SET[2] = 255;
   }
   else
   {
-    COLOUR[2] += 10;     
+    LAST_COLOUR_SET[2] += 10;     
   }
 
   if (powerFlg == true)
   {
-    analogWrite(mRED_PIN,COLOUR[0]);
-    analogWrite(mGREEN_PIN,COLOUR[1]);
-    analogWrite(mBLUE_PIN,COLOUR[2]);
+    analogWrite(mRED_PIN,LAST_COLOUR_SET[0]);
+    analogWrite(mGREEN_PIN,LAST_COLOUR_SET[1]);
+    analogWrite(mBLUE_PIN,LAST_COLOUR_SET[2]);
   }
 }
 
 
 void decBrightness()
 {
-  if (COLOUR[0] <= 10)
+  if (LAST_COLOUR_SET[0] <= 10)
   {
-    COLOUR[0] = 0;
+    LAST_COLOUR_SET[0] = 0;
   }
   else
   {
-    COLOUR[0] -= 10;
+    LAST_COLOUR_SET[0] -= 10;
   }
 
-  if (COLOUR[1] <= 10)
+  if (LAST_COLOUR_SET[1] <= 10)
   {
-    COLOUR[1] = 0;
+    LAST_COLOUR_SET[1] = 0;
   }
   else
   {
-    COLOUR[1] -= 10;
+    LAST_COLOUR_SET[1] -= 10;
   }
 
-  if (COLOUR[2] <= 10)
+  if (LAST_COLOUR_SET[2] <= 10)
   {
-    COLOUR[2] = 0;  
+    LAST_COLOUR_SET[2] = 0;  
   }
   else
   {
-    COLOUR[2] -= 10;
+    LAST_COLOUR_SET[2] -= 10;
   }
 
   if (powerFlg == true)
   {
-    analogWrite(mRED_PIN,COLOUR[0]);
-    analogWrite(mGREEN_PIN,COLOUR[1]);
-    analogWrite(mBLUE_PIN,COLOUR[2]);
+    analogWrite(mRED_PIN,LAST_COLOUR_SET[0]);
+    analogWrite(mGREEN_PIN,LAST_COLOUR_SET[1]);
+    analogWrite(mBLUE_PIN,LAST_COLOUR_SET[2]);
   }  
 }
