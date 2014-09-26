@@ -1,4 +1,4 @@
-RGB-LED-String-Controller
-=========================
+RGB LED Strip Controller
+========================
 
-RGB LED String Controller
+Control a common anode 12v RGB led light strip with a IR remote
