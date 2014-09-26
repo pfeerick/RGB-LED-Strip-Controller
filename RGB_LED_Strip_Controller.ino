@@ -102,6 +102,14 @@ void loop() {
       case IR_OFF:
         if (powerFlg != false) setPower(false);
         break;
+
+      case IR_INCREASE_BRIGHTNESS:
+        incBrightness();
+        break;
+        
+      case IR_DECREASE_BRIGHTNESS:
+        decBrightness();
+        break;
       
       case IR_RED:
     #ifdef DEBUG
@@ -222,14 +230,16 @@ void setColour(int* led, const byte* colour)
   setColour(led, tempByte);
 }
 
-// needs either positive no. for increase or negative for decrease
+//increase LED brightness
+
+//consider switching to absolute brightness - ie. each colour has 10 preset brightnesses
 void incBrightness()
 {
   if (LAST_COLOUR_SET[0] >= 245)
   {
     LAST_COLOUR_SET[0] = 255;
   }
-  else
+  else if (LAST_COLOUR_SET[0] != 0)
   {
     LAST_COLOUR_SET[0] += 10;
   }
@@ -238,7 +248,7 @@ void incBrightness()
   {
     LAST_COLOUR_SET[1] = 255;
   }
-  else
+  else if (LAST_COLOUR_SET[1] != 0)
   {
     LAST_COLOUR_SET[1] += 10;
   }
@@ -247,11 +257,11 @@ void incBrightness()
   {
     LAST_COLOUR_SET[2] = 255;
   }
-  else
+  else if (LAST_COLOUR_SET[2] != 0)
   {
     LAST_COLOUR_SET[2] += 10;     
   }
-
+  
   if (powerFlg == true)
   {
     analogWrite(mRED_PIN,LAST_COLOUR_SET[0]);
@@ -260,7 +270,7 @@ void incBrightness()
   }
 }
 
-
+//decrease LED brightness
 void decBrightness()
 {
   if (LAST_COLOUR_SET[0] <= 10)
